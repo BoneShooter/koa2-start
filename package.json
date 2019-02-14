@@ -1,0 +1,14 @@
+{
+    "name": "koa2-start",
+    "version": "1.0.0",
+    "description": "koa2-start",
+    "author": {
+        "name": "sweetyx"
+    },
+    "main": "",
+    "scripts": {
+        "build": "sh build.sh",
+        "test": "node ./target/server/src/index.js"
+    },
+    "license": "MIT"
+}

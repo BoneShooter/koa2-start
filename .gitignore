@@ -1,0 +1,6 @@
+target/*
+target.zip
+web/build/*
+web/node_modules/*
+server/build/*
+server/node_modules/*

@@ -1,0 +1,45 @@
+{
+    "name": "koa2-start",
+    "version": "1.0.0",
+    "description": "koa2-start",
+    "keywords": [
+        "node",
+        "koa",
+        "koa2",
+        "typescript",
+        "start"
+    ],
+    "license": "LGPL",
+    "author": "sweetyx",
+    "scripts": {
+        "server": "nodemon --config ./nodemon.json ./src/index.ts",
+        "tslint": "tslint -c ./tslint.json './src/**/*.ts'",
+        "clean": "rm -rf dist && rm -rf build",
+        "build": "sh scripts/build.sh"
+    },
+    "dependencies": {
+        "boom": "^7.1.1",
+        "koa": "^2.5.3",
+        "koa-body": "^4.0.4",
+        "koa-compose": "^4.0.0",
+        "koa-logger": "^3.2.0",
+        "koa-router": "^7.3.0",
+        "koa-send": "^4.1.2"
+    },
+    "devDependencies": {
+        "@types/boom": "^7.2.0",
+        "@types/koa": "^2.0.43",
+        "@types/koa-compose": "^3.2.2",
+        "@types/koa-logger": "^3.1.1",
+        "@types/koa-router": "^7.0.32",
+        "@types/koa-send": "^4.1.1",
+        "@types/node": "^10.0.0",
+        "nodemon": "^1.14.7",
+        "ts-node": "^8.0.2",
+        "tslint": "^5.12.1",
+        "typescript": "^3.0.0"
+    },
+    "engines": {
+        "node": ">=10.0.0"
+    }
+}
