@@ -1,6 +1,6 @@
 import $ from 'jquery';
+import './assets/scss/index.scss';
 import './plugins/jquery.fireworks.js';
-import './styles/scss/index.scss';
 
 function goToPage2(): void {
     $('#page_one').addClass('hide');

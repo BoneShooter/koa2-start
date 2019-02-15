@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HashOutput = require('webpack-plugin-hash-output');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const config = require('./config');
 
 module.exports = {
@@ -12,7 +13,7 @@ module.exports = {
         extensions: ['.ts', '.js']
     },
     entry: {
-        home: [path.join(config.srcPath, 'home.ts')]
+        index: [path.join(config.srcPath, 'index.ts')]
     },
     output: {
         hashFunction: 'md5',
@@ -23,6 +24,21 @@ module.exports = {
     },
     performance: {
         hints: false
+    },
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new UglifyJsPlugin({
+                parallel: true,
+                cache: true,
+                uglifyOptions: {
+                    output: {
+                        comments: false,
+                        beautify: false
+                    }
+                }
+            })
+        ]
     },
     module: {
         rules: [
@@ -46,7 +62,7 @@ module.exports = {
                         fallback: 'file-loader',
                         outputPath: 'img/',
                         name: '[name]-[hash:20].[ext]',
-                        limit: 1 * 8 * 1024 * 2 //2KB以内的图片都使用base64
+                        limit: 1 * 1024 * 5 //5KB以内的图片都使用base64
                     }
                 }
             }, {
@@ -73,23 +89,23 @@ module.exports = {
             filename: 'index.html',
             favicon: path.join(config.srcPath, 'favicon.ico'),
             template: path.join(config.srcPath, 'index.html'),
-            chunks: ['home'],
-            chunksSortMode: (function () {
-                const orders = ['home'];
-                return function (left, right) {
-                    let leftIndex = orders.indexOf(left.names[0]);
-                    let rightindex = orders.indexOf(right.names[0]);
-                    if (leftIndex > rightindex) {
-                        return 1;
-                    }
-                    else if (leftIndex < rightindex) {
-                        return -1;
-                    }
-                    else {
-                        return 0;
-                    }
-                }
-            })()
+            chunks: ['index']
+            // ,chunksSortMode: (function () {
+            //     const orders = ['index'];
+            //     return function (left, right) {
+            //         let leftIndex = orders.indexOf(left.names[0]);
+            //         let rightindex = orders.indexOf(right.names[0]);
+            //         if (leftIndex > rightindex) {
+            //             return 1;
+            //         }
+            //         else if (leftIndex < rightindex) {
+            //             return -1;
+            //         }
+            //         else {
+            //             return 0;
+            //         }
+            //     }
+            // })()
         })
     ]
 };

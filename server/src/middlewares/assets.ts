@@ -11,14 +11,20 @@ const router = new Router({
     prefix: conf.appPrefix
 });
 
-const index = async (ctx: Context) => {
+// 处理index.html
+router.get('/', async (ctx: Context) => {
     await send(ctx, 'index.html', {
         root: conf.clientAppPath
     });
-};
-// 处理index.html
-router.get('/', index);
-router.get('/index.html', index);
+});
+
+router.get('/*.html', async (ctx: Context) => {
+    const contextPathReg = new RegExp(`^${conf.appPrefix}/`);
+    const reqPath = ctx.path.replace(contextPathReg, '');
+    await send(ctx, reqPath, {
+        root: conf.clientAppPath
+    });
+});
 
 // 处理静态资源，css、js、img。
 router.get('/(css|img|js)/*', async (ctx: Context) => {
