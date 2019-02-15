@@ -2,9 +2,11 @@
  * @description
  *   此中间件的作用是处理index.html、前端静态资源的请求
  */
+import fs from 'fs';
 import { Context } from 'koa';
 import Router from 'koa-router';
 import send from 'koa-send';
+import path from 'path';
 import conf from '../conf';
 
 const router = new Router({
@@ -18,12 +20,16 @@ router.get('/', async (ctx: Context) => {
     });
 });
 
-router.get('/*.html', async (ctx: Context) => {
+router.get('/*.html', async (ctx: Context, next: () => Promise<void>) => {
     const contextPathReg = new RegExp(`^${conf.appPrefix}/`);
     const reqPath = ctx.path.replace(contextPathReg, '');
-    await send(ctx, reqPath, {
-        root: conf.clientAppPath
-    });
+    if (fs.existsSync(path.join(conf.clientAppPath, reqPath))) {
+        await send(ctx, reqPath, {
+            root: conf.clientAppPath
+        });
+    } else {
+        next();
+    }
 });
 
 // 处理静态资源，css、js、img。
